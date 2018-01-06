@@ -1,11 +1,45 @@
+{% extends "blog/base.html" %}
+
 <div>
-    <h1><a href="/">Django Girls Blog</a></h1>
+    <h1><a href="/">test redis celery django ajax</a></h1>
 </div>
 
-{% for post in posts %}
-    <div>
-        <p>publié: {{ post.published_date }}</p>
-        <h1><a href="">{{ post.title }}</a></h1>
-        <p>{{ post.text|linebreaksbr }}</p>
+{% block content %}
+<br><br>
+<div class="row white">
+    <div class="large-12 columns">
+        <a href="/logout" class="right">Logout</a>
+        <h2>Hi, {{request.user.username}}</h2>
     </div>
-{% endfor %}
+</div>
+<div class="row white">
+    <div class="columns large-12">
+        <form method="POST" id="post-form">
+            {% csrf_token %}
+            <div class="fieldWrapper" id="the_post">
+                {{ form.text }}
+            </div>
+            <div id="results"></div>
+            <input type="submit" value="Post" class="tiny button">
+        </form>
+    </div>
+</div>
+
+<!-- The feed -->
+<div class="row white">
+    <div class="columns large-12" style="overflow:auto; height:400px;"> 
+        <ul id="talk">
+            {% for post in posts %}
+                <li>
+                    <strong>{{ post.text }}</strong> -
+                    <em>{{ post.author }}</em> -
+                    <span>{{ post.created_date }}</span> -
+                    <a id='delete-post-{{post.id}}'>delete me</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
